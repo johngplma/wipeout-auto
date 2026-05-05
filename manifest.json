@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Wipeout Auto",
   "version": "0.1.0",
-  "description": "Automatically clear cookies, storage, cache, and history when you leave a site. Whitelist domains to stay logged in. Local-only, no telemetry.",
+  "description": "Auto-clear cookies, storage, cache, and history when you leave a site. Whitelist domains to stay logged in.",
   "permissions": ["storage", "tabs", "browsingData", "cookies", "history"],
   "host_permissions": ["<all_urls>"],
   "action": { "default_popup": "popup.html", "default_title": "Wipeout Auto" },
