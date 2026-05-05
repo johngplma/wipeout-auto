@@ -20,12 +20,30 @@
       </header>
 
       <section class="card">
-        <h2>Whitelist</h2>
+        <div class="card-header">
+          <h2>Whitelist</h2>
+          <div class="card-header-actions">
+            <button type="button" id="export-whitelist" class="btn-ghost">
+              Export
+            </button>
+            <button type="button" id="import-whitelist" class="btn-ghost">
+              Import
+            </button>
+            <input
+              type="file"
+              id="import-file"
+              accept="application/json,.json"
+              hidden
+            />
+          </div>
+        </div>
         <p class="hint">
           Whitelisted domains keep cookies, localStorage, and IndexedDB so you
           stay logged in. Cache, service workers, and history are still cleared.
-          Use <code>*.example.com</code> to match any subdomain (does not match
-          <code>example.com</code> itself).
+          Use <code>*.example.com</code> to cover the apex
+          <code>example.com</code> and any subdomain
+          (<code>mail.example.com</code>, <code>accounts.example.com</code>,
+          etc.).
         </p>
 
         <form id="add-form" class="add-form" autocomplete="off">
@@ -43,6 +61,7 @@
         <p id="whitelist-empty" class="empty" hidden>
           No whitelisted domains yet.
         </p>
+        <p id="import-status" class="hint" role="status" hidden></p>
       </section>
 
       <section class="card">

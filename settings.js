@@ -52,6 +52,10 @@ const els = {
   error: document.getElementById("add-error"),
   list: document.getElementById("whitelist"),
   empty: document.getElementById("whitelist-empty"),
+  exportBtn: document.getElementById("export-whitelist"),
+  importBtn: document.getElementById("import-whitelist"),
+  importFile: document.getElementById("import-file"),
+  importStatus: document.getElementById("import-status"),
   // advanced settings
   autoDelay: document.getElementById("auto-delay"),
   catsNon: document.getElementById("cats-non-whitelisted"),
@@ -183,6 +187,99 @@ async function removeEntry(domain) {
   const whitelist = await getWhitelist();
   delete whitelist[domain];
   await setWhitelist(whitelist);
+}
+
+// ── Whitelist import/export ───────────────────────────────
+// Format: a flat JSON array of domain strings.
+// e.g. ["*.google.com", "github.com", "192.168.1.1"]
+// `addedAt` and `type` aren't preserved across export/import — `type` is
+// re-derived from the string and `addedAt` is set to import-time.
+
+function showImportStatus(message, isError = false) {
+  els.importStatus.textContent = message;
+  els.importStatus.hidden = false;
+  els.importStatus.style.color = isError
+    ? "var(--danger)"
+    : "var(--text-secondary)";
+}
+
+function todayStamp() {
+  const d = new Date();
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth() + 1).padStart(2, "0");
+  const dd = String(d.getDate()).padStart(2, "0");
+  return `${yyyy}-${mm}-${dd}`;
+}
+
+async function exportWhitelist() {
+  const whitelist = await getWhitelist();
+  const entries = Object.keys(whitelist).sort();
+  const blob = new Blob([JSON.stringify(entries, null, 2) + "\n"], {
+    type: "application/json",
+  });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `wipeout-auto-whitelist-${todayStamp()}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showImportStatus(`Exported ${entries.length} entr${entries.length === 1 ? "y" : "ies"}.`);
+}
+
+async function importWhitelistFile(file) {
+  let text;
+  try {
+    text = await file.text();
+  } catch (e) {
+    showImportStatus(`Failed to read file: ${e}`, true);
+    return;
+  }
+
+  let parsed;
+  try {
+    parsed = JSON.parse(text);
+  } catch (e) {
+    showImportStatus(`Invalid JSON: ${e.message}`, true);
+    return;
+  }
+
+  if (!Array.isArray(parsed)) {
+    showImportStatus("Expected a JSON array of domain strings.", true);
+    return;
+  }
+
+  const whitelist = await getWhitelist();
+  let added = 0;
+  let duplicates = 0;
+  let invalid = 0;
+  const now = Date.now();
+
+  for (const raw of parsed) {
+    if (typeof raw !== "string") {
+      invalid++;
+      continue;
+    }
+    const result = Utils.validateWhitelistInput(raw);
+    if (!result.ok) {
+      invalid++;
+      continue;
+    }
+    if (whitelist[result.value]) {
+      duplicates++;
+      continue;
+    }
+    whitelist[result.value] = { type: result.type, addedAt: now };
+    added++;
+  }
+
+  await setWhitelist(whitelist);
+
+  const parts = [`Imported ${added}`];
+  if (duplicates) parts.push(`${duplicates} duplicate${duplicates === 1 ? "" : "s"} skipped`);
+  if (invalid) parts.push(`${invalid} invalid skipped`);
+  showImportStatus(parts.join(", ") + ".", invalid > 0 && added === 0);
 }
 
 // ────────────────────────────────────────────────────────────────────────
@@ -332,6 +429,16 @@ async function clearAllLogs() {
 els.form.addEventListener("submit", (e) => {
   e.preventDefault();
   addEntry(els.input.value);
+});
+
+els.exportBtn.addEventListener("click", exportWhitelist);
+els.importBtn.addEventListener("click", () => els.importFile.click());
+els.importFile.addEventListener("change", async (e) => {
+  const file = e.target.files?.[0];
+  if (!file) return;
+  await importWhitelistFile(file);
+  // reset so picking the same file twice still fires `change`
+  e.target.value = "";
 });
 
 els.autoDelay.addEventListener("change", onDelayInput);

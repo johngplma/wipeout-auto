@@ -2,11 +2,13 @@
 
 A Chromium-based browser extension that automatically clears browsing data when you leave a site or restart your browser. Whitelist domains where you want to stay logged in.
 
+> Inspired by [Cookie AutoDelete](https://github.com/Cookie-AutoDelete/Cookie-AutoDelete) (CAD), which is no longer maintained for Chromium MV3. Wipeout Auto keeps the parts of CAD I loved — auto-clean on tab close, whitelist to stay logged in, manual clean now, activity log — and adds per-category controls beyond cookies (localStorage, IndexedDB, cacheStorage, service workers, history), separate cleanup profiles for whitelisted vs non-whitelisted domains, and a browser-restart full sweep. It's MV3-native.
+
 ## What it does
 
 - **Per-site cleanup on leave.** When the last tab on a domain is closed (or the only tab navigates away), Wipeout Auto clears that site's cookies, local storage, IndexedDB, cache storage, service workers, and history entries — after a configurable delay (default 5 seconds).
 - **Whitelist to stay logged in.** Whitelisted domains keep their cookies / localStorage / IndexedDB so you don't lose login state. Cache, service workers, and history are still cleared.
-- **Wildcard whitelist entries.** Add `*.example.com` to whitelist every subdomain. The leading dot is required so `evilexample.com` doesn't accidentally match. `example.com` and `*.example.com` are independent — whitelist each separately if you want both.
+- **Wildcard whitelist entries.** Add `*.example.com` to cover the apex `example.com` and every subdomain (`mail.`, `accounts.`, etc.). The leading dot prevents lookalike matches like `evilexample.com`.
 - **Full sweep on browser startup.** Optionally, clears all non-whitelisted domains plus a global pass for cache, downloads, form data, and history.
 - **Activity log.** Every cleanup is logged with the trigger, domain, whitelist status, categories cleared, and cookie count. Capped at 2000 entries; entries older than 30 days auto-purge.
 
@@ -31,7 +33,7 @@ The Wipeout Auto icon appears in the toolbar. Click it to whitelist the current 
 
 ### Settings page
 
-- **Whitelist:** add, remove, or review whitelisted domains. Apex (`example.com`) and wildcard (`*.example.com`) are stored as separate entries.
+- **Whitelist:** add, remove, or review whitelisted domains. Apex (`example.com`) and wildcard (`*.example.com`) are stored as separate entries. **Export** / **Import** buttons let you back up the whitelist as a plain JSON array of strings, e.g. `["*.google.com", "github.com"]`.
 - **Advanced settings:**
   - **Auto-cleanup delay** (0–30 seconds). The grace period between a tab closing and cleanup firing. Reopening the site within this window cancels the cleanup.
   - **Categories to clear**, separately for non-whitelisted vs whitelisted domains. Defaults: non-whitelisted clears everything; whitelisted preserves cookies / localStorage / IndexedDB.
@@ -55,6 +57,10 @@ The Wipeout Auto icon appears in the toolbar. Click it to whitelist the current 
 - `popup.html` / `popup.js` / `popup.css` — toolbar popup.
 - `settings.html` / `settings.js` / `settings.css` — full settings page.
 - `icons/` — placeholder icons (16/48/128 px).
+
+## Documentation
+
+Full user docs live in the [GitHub Wiki](https://github.com/johngplma/wipeout-auto/wiki) — installation, whitelist semantics (apex vs. wildcard, ccTLDs), category reference, settings, activity log, and FAQ. The source for the wiki is in [`wiki/`](wiki/).
 
 ## Privacy
 
