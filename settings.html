@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="lib/theme.js"></script>
+    <link rel="stylesheet" href="settings.css" />
+    <title>Wipeout Auto — Settings</title>
+  </head>
+  <body>
+    <main class="settings">
+      <header class="settings-header">
+        <img
+          src="icons/icon-wipeout.svg"
+          alt=""
+          class="settings-logo"
+          width="40"
+          height="40"
+        />
+        <h1>Wipeout Auto - Settings</h1>
+      </header>
+
+      <section class="card">
+        <h2>Whitelist</h2>
+        <p class="hint">
+          Whitelisted domains keep cookies, localStorage, and IndexedDB so you
+          stay logged in. Cache, service workers, and history are still cleared.
+          Use <code>*.example.com</code> to match any subdomain (does not match
+          <code>example.com</code> itself).
+        </p>
+
+        <form id="add-form" class="add-form" autocomplete="off">
+          <input
+            type="text"
+            id="add-input"
+            placeholder="example.com or *.example.com"
+            spellcheck="false"
+          />
+          <button type="submit">Add</button>
+        </form>
+        <div id="add-error" class="error" role="alert"></div>
+
+        <ul id="whitelist" class="whitelist"></ul>
+        <p id="whitelist-empty" class="empty" hidden>
+          No whitelisted domains yet.
+        </p>
+      </section>
+
+      <section class="card">
+        <div class="card-header">
+          <h2>Advanced settings</h2>
+          <button type="button" id="reset-settings" class="remove">
+            Reset to defaults
+          </button>
+        </div>
+
+        <div class="setting-row">
+          <label>Appearance</label>
+          <div class="setting-control">
+            <div class="theme-picker" role="radiogroup" aria-label="Theme">
+              <label class="radio-row">
+                <input type="radio" name="theme" value="system" />
+                <span>System</span>
+              </label>
+              <label class="radio-row">
+                <input type="radio" name="theme" value="light" />
+                <span>Light</span>
+              </label>
+              <label class="radio-row">
+                <input type="radio" name="theme" value="dark" />
+                <span>Dark</span>
+              </label>
+            </div>
+            <p class="hint">
+              "System" follows your operating system's appearance setting.
+            </p>
+          </div>
+        </div>
+
+        <div class="setting-row">
+          <label for="auto-delay">Auto-cleanup delay</label>
+          <div class="setting-control">
+            <input type="number" id="auto-delay" min="0" max="30" step="1" />
+            <span class="hint"
+              >seconds (0–30, max enforced by the browser's service worker
+              lifetime)</span
+            >
+          </div>
+        </div>
+
+        <div class="setting-row">
+          <label>Categories to clear</label>
+          <div class="setting-control category-grid">
+            <div class="category-col">
+              <h4>Non-whitelisted domains</h4>
+              <ul id="cats-non-whitelisted" class="category-list"></ul>
+            </div>
+            <div class="category-col">
+              <h4>Whitelisted domains</h4>
+              <ul id="cats-whitelisted" class="category-list"></ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="setting-row">
+          <label>Browser startup full sweep</label>
+          <div class="setting-control">
+            <label class="toggle-row">
+              <input type="checkbox" id="full-sweep-toggle" />
+              <span>Enable full sweep on browser startup</span>
+            </label>
+            <p class="hint">
+              When enabled, on every browser startup all non-whitelisted domains
+              are cleaned per-domain, plus a global clear of cache, downloads,
+              form data, and history. These categories are not individually
+              configurable.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="logs-header">
+          <h2>Activity log</h2>
+          <button type="button" id="clear-logs" class="remove">
+            Clear all logs
+          </button>
+        </div>
+        <input
+          type="text"
+          id="log-filter"
+          class="log-filter"
+          placeholder="Filter by domain…"
+          spellcheck="false"
+        />
+        <div class="logs-table-wrap">
+          <table class="logs-table">
+            <thead>
+              <tr>
+                <th>When</th>
+                <th>Trigger</th>
+                <th>Domain</th>
+                <th>Whitelist</th>
+                <th>Cleared</th>
+                <th class="num">Cookies</th>
+              </tr>
+            </thead>
+            <tbody id="logs-body"></tbody>
+          </table>
+        </div>
+        <p id="logs-empty" class="empty" hidden>No activity yet.</p>
+      </section>
+    </main>
+
+    <script src="lib/domain-utils.js"></script>
+    <script src="settings.js"></script>
+  </body>
+</html>

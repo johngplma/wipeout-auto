@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="lib/theme.js"></script>
+    <link rel="stylesheet" href="popup.css" />
+    <title>Wipeout Auto</title>
+  </head>
+  <body>
+    <main class="popup">
+      <header class="header">
+        <h1>Wipeout Auto</h1>
+      </header>
+
+      <section id="host-block" class="host-block" hidden>
+        <div id="host-info" class="host-info"></div>
+        <button type="button" id="clean-now" class="btn-clean">
+          🧹 Clean Now
+        </button>
+      </section>
+
+      <div id="status" class="status" hidden></div>
+
+      <div id="content"></div>
+
+      <div id="last-cleaned" class="last-cleaned" hidden></div>
+
+      <footer class="footer">
+        <button type="button" id="open-settings" class="btn-link">
+          Open Settings
+          <span class="btn-link-arrow" aria-hidden="true">→</span>
+        </button>
+      </footer>
+    </main>
+
+    <script src="lib/domain-utils.js"></script>
+    <script src="popup.js"></script>
+  </body>
+</html>
