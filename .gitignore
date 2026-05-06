@@ -18,6 +18,9 @@ wipeout-auto-prompt.md
 NOTES.md
 TODO.md
 
+# Claude Code local config (machine-specific paths, permission allowlist)
+.claude/settings.local.json
+
 # Logs
 *.log
 
