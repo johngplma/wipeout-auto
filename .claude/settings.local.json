@@ -1,7 +1,12 @@
 {
   "permissions": {
     "allow": [
-      "Bash(python3 -c ' *)"
+      "Bash(python3 -c ' *)",
+      "Bash(cp /Users/john/Dev/wipeout-auto/wiki/Home.md /Users/john/Dev/wipeout-auto/wiki/Installation.md /Users/john/Dev/wipeout-auto/wiki/Whitelist.md /Users/john/Dev/wipeout-auto/wiki/Categories.md /Users/john/Dev/wipeout-auto/wiki/Settings.md /Users/john/Dev/wipeout-auto/wiki/Activity-Log.md /Users/john/Dev/wipeout-auto/wiki/FAQ.md /Users/john/Dev/wipeout-auto/wiki/_Sidebar.md /Users/john/Dev/wipeout-auto.wiki/)",
+      "Read(//Users/john/Dev/wipeout-auto.wiki/**)",
+      "Bash(git -C /Users/john/Dev/wipeout-auto.wiki add .)",
+      "Bash(git -C /Users/john/Dev/wipeout-auto.wiki commit -m \"Add wiki pages \\(Installation, Whitelist, Categories, Settings, Activity-Log, FAQ, _Sidebar\\)\")",
+      "Bash(git -C /Users/john/Dev/wipeout-auto.wiki push)"
     ]
   }
 }
