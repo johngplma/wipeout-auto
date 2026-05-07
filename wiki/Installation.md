@@ -2,9 +2,7 @@
 
 ## Chrome Web Store
 
-> Once published — not yet available.
-
-Install from the Chrome Web Store, click **Add to Chrome**, and confirm the permissions prompt.
+**[Install Wipeout Auto](https://chromewebstore.google.com/detail/wipeout-auto/kblhjdaihhndeopjipabdacngnbglbmp)** — click **Add to Chrome** and confirm the permissions prompt.
 
 ## Unpacked (developer install)
 

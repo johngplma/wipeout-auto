@@ -2,6 +2,8 @@
 
 A Chromium-based browser extension that automatically clears browsing data when you leave a site or restart your browser. Whitelist domains where you want to stay logged in.
 
+**[Install from the Chrome Web Store](https://chromewebstore.google.com/detail/wipeout-auto/kblhjdaihhndeopjipabdacngnbglbmp)**
+
 ## What it does
 
 Wipeout Auto watches for two events and runs cleanups:

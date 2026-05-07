@@ -12,7 +12,13 @@ A Chromium-based browser extension that automatically clears browsing data when 
 - **Full sweep on browser startup.** Optionally, clears all non-whitelisted domains plus a global pass for cache, downloads, form data, and history.
 - **Activity log.** Every cleanup is logged with the trigger, domain, whitelist status, categories cleared, and cookie count. Capped at 2000 entries; entries older than 30 days auto-purge.
 
-## Install (developer / unpacked)
+## Install
+
+### Chrome Web Store
+
+**[Install Wipeout Auto](https://chromewebstore.google.com/detail/wipeout-auto/kblhjdaihhndeopjipabdacngnbglbmp)** — click **Add to Chrome** and confirm the permissions prompt.
+
+### Unpacked (developer install)
 
 1. Clone or download this repository.
 2. Open `chrome://extensions/` in Chrome (or any Chromium browser — Edge, Brave, Arc).
